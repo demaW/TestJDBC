@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <employees name="Bob" lastname="Doe" age="18" salary="1800.00"/>
+    <employees name="Alice" lastname="Foo" age="23" salary="18020.00"/>
+    <employees name="Charlie" lastname="Brown" age="42" salary="1112.30"/>
+</dataset>
