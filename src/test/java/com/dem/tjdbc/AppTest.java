@@ -13,9 +13,7 @@ import org.junit.Test;
 
 import java.io.FileInputStream;
 
-/**
- * Unit test for simple App.
- */
+
 public class AppTest extends DBTestCase
 {
     private IDatabaseTester databaseTester;
