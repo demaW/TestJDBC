@@ -15,7 +15,6 @@ public class App {
         String cityName;
         String companyName;
 
-        System.out.println("Hello World!");
 
         String dbURL = "jdbc:mysql://localhost/beer_storage";
         String dbClass = "com.mysql.jdbc.Driver";
@@ -31,7 +30,7 @@ public class App {
             System.out.println("enter city");
             cityName = bufferedReader.readLine();
 
-            //insertCompany(connection, companyName, cityName);
+            insertCompany(connection, companyName, cityName);
 
             ResultSet resultSet = PrintSuppliersTable(querySelect);
 
