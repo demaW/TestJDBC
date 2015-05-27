@@ -6,33 +6,34 @@ import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.junit.Assert;
 import org.junit.Test;
+import utils.PropertyReader;
 
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class SalaryTest extends DatabaseTestCase {
-    private String dbURLOracle = "jdbc:oracle:thin:@localhost:1521:emp";
-    private String userOracle = "system";
-    private String passOracle = "181992";
-    private String dbClassOracle = "oracle.jdbc.driver.OracleDriver";
+    private static String ORACLEPROP = "propertiesOracle";
+    private static String MYSQLPROP = "propertiesMySql";
 
-    private String dbURL = "jdbc:mysql://localhost/emp";
-    private String user = "root";
-    private String pass = "root";
-    private String dbClass = "com.mysql.jdbc.Driver";
     private SalaryCalculation salaryCalculation;
     private Connection jdbcConnection;
     private FlatXmlDataSet dataSet;
 
     @Override
     protected IDatabaseConnection getConnection() throws Exception {
-        Class.forName(dbClass);
-        jdbcConnection = DriverManager.getConnection(dbURLOracle, userOracle, passOracle);
-        return new DatabaseConnection(jdbcConnection,"SYSTEM");
+        // read properties from file
+        HashMap<String, String> prop =  PropertyReader.getProperties(ORACLEPROP);
+
+        Class.forName(prop.get("dbClass"));
+        jdbcConnection = DriverManager.getConnection(prop.get("dbURL"), prop.get("user"), prop.get("pass"));
+        if (prop.get("schema") != null && !prop.get("schema").isEmpty())
+            return new DatabaseConnection(jdbcConnection, prop.get("schema"));
+        else
+            return new DatabaseConnection(jdbcConnection);
     }
 
     @Override
@@ -41,7 +42,9 @@ public class SalaryTest extends DatabaseTestCase {
         return dataSet;
     }
 
-    /** *Test case for calculator *negative scenario---InValid Employee */
+    /**
+     * Test case for calculator *negative scenario---InValid Employee
+     */
     @Test
     public void testCalculation() {
         salaryCalculation = new SalaryCalculation();
