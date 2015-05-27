@@ -6,6 +6,7 @@ import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
+import org.dbunit.dataset.SortedTable;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
@@ -23,8 +24,10 @@ public class DBTest {
     @Before
     public void setUp() throws Exception
     {
-        databaseTester = new JdbcDatabaseTester("com.mysql.jdbc.Driver",
-                "jdbc:mysql://localhost/emp", "root", "root");
+        databaseTester = new JdbcDatabaseTester("oracle.jdbc.driver.OracleDriver", "jdbc:oracle:thin:@localhost:1521:emp", "system","181992", "SYSTEM");
+
+        // databaseTester = new JdbcDatabaseTester("com.mysql.jdbc.Driver",
+        //        "jdbc:oracle:thin:@://localhost/emp", "root", "root");
 
         // initialize your dataset here
         IDataSet dataSet = getDataSet();
@@ -39,13 +42,15 @@ public class DBTest {
         // Fetch database data after executing your code
         IDataSet databaseDataSet = databaseTester.getConnection().createDataSet();
         ITable actualTable = databaseDataSet.getTable("employees2");
+        SortedTable sortedActualTable = new SortedTable(actualTable, new String[]{"ID"});
 
         // Load expected data from an XML dataset
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File("src\\test\\resources\\dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable("employees");
 
+
         // Assert actual database table match expected table
-        Assertion.assertEquals(expectedTable, actualTable);
+        Assertion.assertEquals(expectedTable, sortedActualTable);
     }
 
 

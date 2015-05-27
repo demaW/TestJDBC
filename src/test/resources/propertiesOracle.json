@@ -1,0 +1,7 @@
+{
+  "dbURL":"jdbc:oracle:thin:@localhost:1521:emp",
+  "username":"system",
+  "pass":"181992",
+  "dbClass" : "oracle.jdbc.driver.OracleDriver",
+  "schema": "SYSTEM"
+}

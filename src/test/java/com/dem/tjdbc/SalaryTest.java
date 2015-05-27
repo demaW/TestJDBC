@@ -15,6 +15,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SalaryTest extends DatabaseTestCase {
+    private String dbURLOracle = "jdbc:oracle:thin:@localhost:1521:emp";
+    private String userOracle = "system";
+    private String passOracle = "181992";
+    private String dbClassOracle = "oracle.jdbc.driver.OracleDriver";
+
     private String dbURL = "jdbc:mysql://localhost/emp";
     private String user = "root";
     private String pass = "root";
@@ -26,8 +31,8 @@ public class SalaryTest extends DatabaseTestCase {
     @Override
     protected IDatabaseConnection getConnection() throws Exception {
         Class.forName(dbClass);
-        jdbcConnection = DriverManager.getConnection(dbURL, user, pass);
-        return new DatabaseConnection(jdbcConnection);
+        jdbcConnection = DriverManager.getConnection(dbURLOracle, userOracle, passOracle);
+        return new DatabaseConnection(jdbcConnection,"SYSTEM");
     }
 
     @Override
